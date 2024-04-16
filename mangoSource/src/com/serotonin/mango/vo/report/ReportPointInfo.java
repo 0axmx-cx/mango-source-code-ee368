@@ -33,6 +33,24 @@ public class ReportPointInfo {
     private TextRenderer textRenderer;
     private String colour;
     private boolean consolidatedChart;
+    private String title;
+	private String xlabel;
+	private String ylabel;
+	private int referenceLines;
+    private boolean scatterPlot;
+
+    public String getTitle() {
+    	return title;
+	}
+	public String getXlabel() {
+    	return xlabel;
+	}
+	public String getYlabel() {
+    	return ylabel;
+	}  
+    public int getReferenceLines() {
+    	return referenceLines;
+	}
 
     public String getExtendedName() {
         return deviceName + " - " + pointName;
@@ -41,6 +59,20 @@ public class ReportPointInfo {
     public int getReportPointId() {
         return reportPointId;
     }
+
+    public void setTitle(String title) {
+    	this.title = title;
+	}
+	public void setXlabel(String xlabel) {
+    	this.xlabel = xlabel;
+	}
+	public void setYlabel(String ylabel) {
+    	this.ylabel = ylabel;
+	}
+	public void setReferenceLines(int referenceLines) {
+    	this.referenceLines = referenceLines;
+	}
+
 
     public void setReportPointId(int reportPointId) {
         this.reportPointId = reportPointId;
@@ -93,7 +125,12 @@ public class ReportPointInfo {
     public void setColour(String colour) {
         this.colour = colour;
     }
-
+    public void setScatterPlot(boolean scatterPlot) {
+        this.scatterPlot = scatterPlot;
+    }
+    public boolean isScatter() {
+        return scatterPlot;
+    }
     public boolean isConsolidatedChart() {
         return consolidatedChart;
     }

@@ -54,21 +54,22 @@ import com.serotonin.util.StringUtils;
 public class ImageChartUtils {
     private static final int NUMERIC_DATA_INDEX = 0;
     private static final int DISCRETE_DATA_INDEX = 1;
+    private static final int REFERENCE_LINE_INDEX = 2;
 
-    public static void writeChart(PointTimeSeriesCollection pointTimeSeriesCollection, OutputStream out, int width,
+    public static void writeChart(PointTimeSeriesCollection pointTimeSeriesCollection, boolean showLegend, OutputStream out, int width,
             int height) throws IOException {
-        writeChart(pointTimeSeriesCollection, pointTimeSeriesCollection.hasMultiplePoints(), out, width, height);
+        writeChartFull(pointTimeSeriesCollection, null, null, null, 0, out, width, height);
     }
 
     public static byte[] getChartData(PointTimeSeriesCollection pointTimeSeriesCollection, int width, int height) {
-        return getChartData(pointTimeSeriesCollection, pointTimeSeriesCollection.hasMultiplePoints(), width, height);
+        return getChartData(pointTimeSeriesCollection, false, width, height);
     }
 
     public static byte[] getChartData(PointTimeSeriesCollection pointTimeSeriesCollection, boolean showLegend,
             int width, int height) {
         try {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
-            writeChart(pointTimeSeriesCollection, showLegend, out, width, height);
+            writeChartFull(pointTimeSeriesCollection, null, null, null, 0, out, width, height);
             return out.toByteArray();
         }
         catch (IOException e) {
@@ -76,10 +77,9 @@ public class ImageChartUtils {
         }
     }
 
-    public static void writeChart(PointTimeSeriesCollection pointTimeSeriesCollection, boolean showLegend,
-            OutputStream out, int width, int height) throws IOException {
-
-        JFreeChart chart = ChartFactory.createTimeSeriesChart(null, null, null, null, showLegend, false, false);
+   public static void writeChartFull(PointTimeSeriesCollection pointTimeSeriesCollection, String title, String xlabel, String ylabel, int referenceLines,
+                                      OutputStream out, int width, int height) throws IOException {
+        JFreeChart chart = ChartFactory.createTimeSeriesChart(title, xlabel, ylabel, null, false, false, false);
         chart.setBackgroundPaint(SystemSettingsDao.getColour(SystemSettingsDao.CHART_BACKGROUND_COLOUR));
 
         XYPlot plot = chart.getXYPlot();
@@ -91,8 +91,6 @@ public class ImageChartUtils {
         double numericMin = 0;
         double numericMax = 1;
         if (pointTimeSeriesCollection.hasNumericData()) {
-            //            XYSplineRenderer numericRenderer = new XYSplineRenderer();
-            //            numericRenderer.setBaseShapesVisible(false);
             XYLineAndShapeRenderer numericRenderer = new XYLineAndShapeRenderer(true, false);
 
             plot.setDataset(NUMERIC_DATA_INDEX, pointTimeSeriesCollection.getNumericTimeSeriesCollection());
@@ -108,24 +106,20 @@ public class ImageChartUtils {
             numericMax = plot.getRangeAxis().getUpperBound();
 
             if (!pointTimeSeriesCollection.hasMultiplePoints()) {
-                // If this chart displays a single point, check if there should be a range description.
                 TimeSeries timeSeries = pointTimeSeriesCollection.getNumericTimeSeriesCollection().getSeries(0);
                 String desc = timeSeries.getRangeDescription();
                 if (!StringUtils.isEmpty(desc)) {
-                    // Replace any HTML entities with Java equivalents
                     desc = StripEntities.stripHTMLEntities(desc, ' ');
                     plot.getRangeAxis().setLabel(desc);
                 }
             }
-        }
-        else
+        } else
             plot.getRangeAxis().setVisible(false);
 
         if (pointTimeSeriesCollection.hasDiscreteData()) {
             XYStepRenderer discreteRenderer = new XYStepRenderer();
             plot.setRenderer(DISCRETE_DATA_INDEX, discreteRenderer, false);
 
-            // Plot the data
             int discreteValueCount = pointTimeSeriesCollection.getDiscreteValueCount();
             double interval = (numericMax - numericMin) / (discreteValueCount + 1);
             TimeSeriesCollection timeSeriesCollection = new TimeSeriesCollection();
@@ -146,7 +140,6 @@ public class ImageChartUtils {
 
             plot.setDataset(DISCRETE_DATA_INDEX, timeSeriesCollection);
 
-            // Add the value annotations.
             double annoX = plot.getDomainAxis().getLowerBound();
             intervalIndex = 1;
             for (int i = 0; i < pointTimeSeriesCollection.getDiscreteSeriesCount(); i++) {
@@ -158,7 +151,6 @@ public class ImageChartUtils {
                     XYTextAnnotation anno = new XYTextAnnotation(" " + dts.getValueText(j), annoX, numericMin
                             + (interval * (j + intervalIndex)));
                     if (!pointTimeSeriesCollection.hasNumericData() && intervalIndex + j == discreteValueCount)
-                        // This prevents the top label from getting cut off
                         anno.setTextAnchor(TextAnchor.TOP_LEFT);
                     else
                         anno.setTextAnchor(TextAnchor.BOTTOM_LEFT);
@@ -170,29 +162,16 @@ public class ImageChartUtils {
             }
         }
 
-        // Return the image.
+        // Draw reference lines
+        for (int i = 0; i < referenceLines; i++) {
+            XYTextAnnotation refLine = new XYTextAnnotation("", 0, 0);
+            refLine.setPaint(Color.RED); // You can set any color
+            refLine.setTextAnchor(TextAnchor.BOTTOM_LEFT);
+            plot.addAnnotation(refLine);
+        }
+
         ChartUtilities.writeChartAsPNG(out, chart, width, height);
     }
-
-    // public static void writeChart(TimeSeries timeSeries, OutputStream out, int width, int height) throws IOException
-    // {
-    // writeChart(new TimeSeriesCollection(timeSeries), false, out, width, height);
-    // }
-    //    
-    // public static void writeChart(TimeSeriesCollection timeSeriesCollection, boolean showLegend, OutputStream out,
-    // int width, int height) throws IOException {
-    // JFreeChart chart = ChartFactory.createTimeSeriesChart(null, null, null, timeSeriesCollection, showLegend,
-    // false, false);
-    // chart.setBackgroundPaint(Color.white);
-    //        
-    // // Change the plot renderer
-    // // XYPlot plot = chart.getXYPlot();
-    // // XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
-    // // plot.setRenderer(renderer);
-    //        
-    // // Return the image.
-    // ChartUtilities.writeChartAsPNG(out, chart, width, height);
-    // }
 
     public static void writeChart(HttpServletResponse response, byte[] chartData) throws IOException {
         response.setContentType(getContentType());

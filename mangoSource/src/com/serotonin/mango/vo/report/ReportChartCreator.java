@@ -89,6 +89,7 @@ public class ReportChartCreator {
     private File eventFile;
     private File commentFile;
     private List<PointStatistics> pointStatistics;
+    
 
     final ResourceBundle bundle;
 
@@ -147,6 +148,10 @@ public class ReportChartCreator {
             if (ptsc.hasData()) {
                 if (inlinePrefix != null)
                     model.put("chartName", inlinePrefix + pointStat.getChartName());
+                    model.put("title", inlinePrefix + pointStat.getTitle());
+                    model.put("xlabel", inlinePrefix + pointStat.getXlabel());
+                    model.put("ylabel", inlinePrefix + pointStat.getYlabel());
+                    model.put("referenceLines", inlinePrefix + pointStat.getReferenceLines());
                 pointStat.setImageData(ImageChartUtils.getChartData(ptsc, POINT_IMAGE_WIDTH, POINT_IMAGE_HEIGHT));
             }
         }
@@ -283,6 +288,41 @@ public class ReportChartCreator {
         private Color numericTimeSeriesColor;
         private DiscreteTimeSeries discreteTimeSeries;
         private byte[] imageData;
+        private String title;
+	    private String xlabel;
+	    private String ylabel;
+	    private int referenceLines;
+        
+
+
+        public String getTitle() {
+    	    return title;
+	    }
+	    public String getXlabel() {
+    	    return xlabel;
+	    }
+	    public String getYlabel() {
+    	    return ylabel;
+	    }  
+	    public int getReferenceLines() {
+    	    return referenceLines;
+    	}
+
+        public void setTitle(String title) {
+    	    this.title = title;
+	    }
+	    public void setXlabel(String xlabel) {
+    	    this.xlabel = xlabel;
+	    }
+	    public void setYlabel(String ylabel) {
+    	    this.ylabel = ylabel;
+	    }
+	    public void setReferenceLines(int referenceLines) {
+    	    this.referenceLines = referenceLines;
+	    }
+
+
+
 
         public PointStatistics(int reportPointId) {
             this.reportPointId = reportPointId;
@@ -497,6 +537,10 @@ public class ReportChartCreator {
             point.setDataTypeDescription(DataTypes.getDataTypeMessage(pointInfo.getDataType()).getLocalizedMessage(
                     bundle));
             point.setTextRenderer(pointInfo.getTextRenderer());
+            point.setTitle(pointInfo.getTitle());
+            point.setXlabel(pointInfo.getXlabel());
+            point.setYlabel(pointInfo.getYlabel());
+            point.setReferenceLines(pointInfo.getReferenceLines());
             if (pointInfo.getStartValue() != null)
                 point.setStartValue(pointInfo.getTextRenderer().getText(pointInfo.getStartValue(),
                         TextRenderer.HINT_FULL));

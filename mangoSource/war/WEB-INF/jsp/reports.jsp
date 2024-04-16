@@ -167,6 +167,26 @@
                         return "<input type='checkbox'"+ (data.consolidatedChart ? " checked='checked'" : "") +
                                 " onclick='updatePointConsolidatedChart("+ data.pointId +", this.checked)'/>";
                     },
+                    function(data) {
+                        return "<input type='checkbox'"+ (data.scatterPlot ? " checked='checked'" : "") +
+                                " onclick='updatePointConsolidatedChart("+ data.scatterPlot +", this.checked)'/>";
+                    },
+                    function(data) {
+                    	    return "<input type='text' value='"+ data.title +"' "+
+                    	            "onblur='updatePointColour("+ data.tatle +", this.value)'/>";
+                    },
+                    function(data) {
+                    	    return "<input type='text' value='"+ data.xlabel +"' "+
+                    	            "onblur='updatePointColour("+ data.xlabel +", this.value)'/>";
+                    },
+                    function(data) {
+                    	    return "<input type='text' value='"+ data.ylabel +"' "+
+                    	            "onblur='updatePointColour("+ data.ylabel +", this.value)'/>";
+                    },
+                    function(data) {
+                    	    return "<input type='text' value='"+ data.referenceLines +"' "+
+                    	            "onblur='updatePointColour("+ data.referenceLines +", this.value)'/>";
+                    },
                     function(data) { 
                             return "<img src='images/bullet_delete.png' class='ptr' "+
                                     "onclick='removeFromReportPointsArray("+ data.pointId +")'/>";
@@ -193,6 +213,31 @@
     	var item = getElement(reportPointsArray, pointId, "pointId");
     	if (item)
     		item["colour"] = colour;
+    }
+    function updateTitle(pointId, title) {
+    	var item = getElement(reportPointsArray, pointId, "pointId");
+    	if (item)
+    		item["title"] = title;
+    }
+    function updateXLabel(pointId, xlabel) {
+    	var item = getElement(reportPointsArray, pointId, "pointId");
+    	if (item)
+    		item["xlabel"] = xlabel;
+    }
+    function updateYLabel(pointId, ylabel) {
+    	var item = getElement(reportPointsArray, pointId, "pointId");
+    	if (item)
+    		item["ylabel"] = ylabel;
+    }
+    function updateReferenceLines(pointId, referenceLines) {
+    	var item = getElement(reportPointsArray, pointId, "pointId");
+    	if (item)
+    		item["referenceLines"] = referenceLines;
+    }
+    function updateScatter(pointId, scatterPlot) {
+    	var item = getElement(reportPointsArray, pointId, "pointId");
+    	if (item)
+    		item["scatterPlot"] = scatterPlot;
     }
     
     function updatePointConsolidatedChart(pointId, consolidatedChart) {
@@ -592,6 +637,11 @@
                       <td><fmt:message key="reports.dataType"/></td>
                       <td><fmt:message key="reports.colour"/></td>
                       <td><fmt:message key="reports.consolidatedChart"/></td>
+                      <td><fmt:message key="reports.scatterPlot"/></td>
+                      <td><fmt:message key="reports.title"/></td>
+                      <td><fmt:message key="reports.xlabel"/></td>
+                      <td><fmt:message key="reports.ylabel"/></td>
+                      <td><fmt:message key="reports.referenceLines"/></td>
                       <td></td>
                     </tr>
                   </tbody>

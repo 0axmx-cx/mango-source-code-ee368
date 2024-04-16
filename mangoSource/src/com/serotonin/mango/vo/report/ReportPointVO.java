@@ -11,6 +11,44 @@ public class ReportPointVO implements Serializable {
     private int pointId;
     private String colour;
     private boolean consolidatedChart;
+    private String title;
+    private String xlabel;
+    private String ylabel;
+    private int referenceLines;
+    private boolean scatterPlot;
+
+    public String getTitle() {
+    	return title;
+	}
+	public String getXlabel() {
+    	return xlabel;
+	}
+	public String getYlabel() {
+    	return ylabel;
+	}
+	public int getReferenceLines() {
+    	return referenceLines;
+	}
+    public boolean isScatter(){
+        return scatterPlot;
+    }
+
+    public void setTitle(String title) {
+    	this.title = title;
+	}
+	public void setXlabel(String xlabel) {
+    	this.xlabel = xlabel;
+	}
+	public void setYlabel(String ylabel) {
+    	this.ylabel = ylabel;
+	}
+	public void setReferenceLines(int referenceLines) {
+    	this.referenceLines = referenceLines;
+	}
+    public void setScatterPlot(boolean scatterPlot){
+        this.scatterPlot = scatterPlot;
+    }
+
 
     public int getPointId() {
         return pointId;
@@ -45,7 +83,6 @@ public class ReportPointVO implements Serializable {
 
     private void writeObject(ObjectOutputStream out) throws IOException {
         out.writeInt(version);
-
         out.writeInt(pointId);
         SerializationHelper.writeSafeUTF(out, colour);
         out.writeBoolean(consolidatedChart);

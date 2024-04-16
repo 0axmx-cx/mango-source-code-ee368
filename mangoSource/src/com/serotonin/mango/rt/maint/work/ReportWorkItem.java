@@ -114,15 +114,20 @@ public class ReportWorkItem implements WorkItem {
             DataPointVO point = dataPointDao.getDataPoint(reportPoint.getPointId());
             if (point != null && Permissions.hasDataPointReadPermission(user, point)) {
                 String colour = null;
+                String title = reportPoint.getTitle();
+                String xlabel = reportPoint.getXlabel();
+                String ylabel = reportPoint.getYlabel();
+                int referenceLines = reportPoint.getReferenceLines();
                 try {
-                    if (!StringUtils.isEmpty(reportPoint.getColour()))
+                    if (!StringUtils.isEmpty(reportPoint.getColour())){
                         colour = ColorUtils.toHexString(reportPoint.getColour()).substring(1);
+                    }
                 }
                 catch (InvalidArgumentException e) {
                     // Should never happen since the colour would have been validated on save, so just let it go 
                     // as null.
                 }
-                points.add(new ReportDao.PointInfo(point, colour, reportPoint.isConsolidatedChart()));
+                points.add(new ReportDao.PointInfo(point, colour, reportPoint.isConsolidatedChart(), title , xlabel , ylabel , referenceLines, reportPoint.isScatter() ));
             }
         }
 

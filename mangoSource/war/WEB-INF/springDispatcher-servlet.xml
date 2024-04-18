@@ -69,6 +69,7 @@
         <prop key="/views.shtm">viewsController</prop>
         <prop key="/view_edit.shtm">viewEditController</prop>
         <prop key="/watch_list.shtm">watchListController</prop>
+        <prop key="/landing.shtm">LandingPageController</prop>
         <prop key="/webcam_live_feed.htm">webcamLiveFeedController</prop>
         
         <!-- Mobile user URLs -->
@@ -229,6 +230,10 @@
     <property name="viewName"><value>watchList</value></property>
   </bean>
   
+  <bean id="LandingPageController" class="com.serotonin.mango.web.mvc.controller.LandingPageController">
+    <property name="viewName"><value>landing</value></property>
+  </bean>
+    
   <bean id="webcamLiveFeedController" class="com.serotonin.mango.web.mvc.controller.WebcamLiveFeedController">
     <property name="viewName"><value>webcamLiveFeed</value></property>
   </bean>

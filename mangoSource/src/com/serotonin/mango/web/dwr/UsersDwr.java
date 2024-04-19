@@ -108,6 +108,13 @@ public class UsersDwr extends BaseDwr {
         UserDao userDao = new UserDao();
 
         User user;
+        if (!isValidPassword(password)) {
+        // Password does not meet complexity requirements
+            DwrResponseI18n response = new DwrResponseI18n();
+            response.addMessage(new LocalizableMessage("users.validate.passwordComplexity"));
+            return response;
+        }
+        
         if (id == Common.NEW_ID)
             user = new User();
         else
@@ -141,6 +148,7 @@ public class UsersDwr extends BaseDwr {
             if (disabled)
                 response.addMessage(new LocalizableMessage("users.validate.adminDisable"));
         }
+        
 
         if (!response.getHasMessages()) {
             userDao.saveUser(user);
@@ -164,6 +172,14 @@ public class UsersDwr extends BaseDwr {
 
         UserDao userDao = new UserDao();
         User updateUser = userDao.getUser(id);
+
+        if (!StringUtils.isEmpty(password) && !isValidPassword(password)) {
+        // Password does not meet complexity requirements
+            DwrResponseI18n response = new DwrResponseI18n();
+            response.addMessage(new LocalizableMessage("users.validate.passwordComplexity"));
+            return response;
+        }
+
         if (!StringUtils.isEmpty(password))
             updateUser.setPassword(Common.encrypt(password));
         updateUser.setEmail(email);
@@ -214,5 +230,9 @@ public class UsersDwr extends BaseDwr {
             new UserDao().deleteUser(id);
 
         return response;
+    }
+    private boolean isValidPassword(String password) {
+    // Password must contain at least one special character, one number, and one capital letter
+        return password.matches("^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[@#$%^&+=!]).{8,}$");
     }
 }

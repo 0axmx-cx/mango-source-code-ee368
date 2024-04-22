@@ -22,9 +22,10 @@
 <tag:page dwr="WatchListDwr" js="view" onload="init">
   <jsp:attribute name="styles">
     <style>
+
     html > body .dojoTreeNodeLabelSelected {
-        background-color: #F07800;
-        color: #FFFFFF;
+        background-color: inherit;
+        color: inherit;
     }
     .watchListAttr {
         min-width:600px;
@@ -76,7 +77,7 @@
                   addPoint(rootFolder.points[i], tree);
               
               hide("loadingImg");
-              
+             /* show("treeDiv"); */
               
               addPointNames(rootFolder);
               
@@ -123,6 +124,17 @@
           
           folderNode.expand();
       }
+
+      function createImageWidget() {
+    
+    var newImageWidget = dojo.widget.createWidget("ImageWidget", {
+        title: "<img src='images/world.png'/> <span id='ph" + new Date().getTime() + "'></span>"
+    });
+
+    return newImageWidget;
+}
+
+
       
       function addPoint(point, parent) {
           var pointNode = dojo.widget.createWidget("TreeNode", {
@@ -218,16 +230,16 @@
           watchlistChangeId++;
           var id = watchlistChangeId;
           WatchListDwr.setSelectedWatchList($get("watchListSelect"), function(data) {
-        	  if (id == watchlistChangeId)
+            if (id == watchlistChangeId)
                   displayWatchList(data);
           });
       }
       
       function addWatchList(copy) {
-    	  var copyId = ${NEW_ID};
-    	  if (copy)
+        var copyId = ${NEW_ID};
+        if (copy)
               copyId = $get("watchListSelect");
-    	  
+        
           WatchListDwr.addNewWatchList(copyId, function(watchListData) {
               var wlselect = $("watchListSelect");
               wlselect.options[wlselect.options.length] = new Option(watchListData.value, watchListData.key);
@@ -394,16 +406,16 @@
       }
       
       function showChart(mangoId, event, source) {
-    	  if (isMouseLeaveOrEnter(event, source)) {
+        if (isMouseLeaveOrEnter(event, source)) {
               // Take the data in the chart textarea and put it into the chart layer div
               $set('p'+ mangoId +'ChartLayer', $get('p'+ mangoId +'Chart'));
               showMenu('p'+ mangoId +'ChartLayer', 4, 12);
-    	  }
+        }
       }
       
       function hideChart(mangoId, event, source) {
           if (isMouseLeaveOrEnter(event, source))
-        	  hideLayer('p'+ mangoId +'ChartLayer');
+            hideLayer('p'+ mangoId +'ChartLayer');
       }
       
       //
@@ -413,9 +425,9 @@
           var width = dojo.html.getContentBox($("imageChartDiv")).width - 20;
           startImageFader($("imageChartImg"));
           WatchListDwr.getImageChartData(getChartPointList(), $get("fromYear"), $get("fromMonth"), $get("fromDay"), 
-        		  $get("fromHour"), $get("fromMinute"), $get("fromSecond"), $get("fromNone"), $get("toYear"), 
-        		  $get("toMonth"), $get("toDay"), $get("toHour"), $get("toMinute"), $get("toSecond"), $get("toNone"), 
-        		  width, 350, function(data) {
+              $get("fromHour"), $get("fromMinute"), $get("fromSecond"), $get("fromNone"), $get("toYear"), 
+              $get("toMonth"), $get("toDay"), $get("toHour"), $get("toMinute"), $get("toSecond"), $get("toNone"), 
+              width, 350, function(data) {
               $("imageChartDiv").innerHTML = data;
               stopImageFader($("imageChartImg"));
               
@@ -426,10 +438,10 @@
       }
       
       function getChartData() {
-    	  var pointIds = getChartPointList();
-    	  if (pointIds.length == 0)
-    		  alert("<fmt:message key="watchlist.noExportables"/>");
-    	  else {
+        var pointIds = getChartPointList();
+        if (pointIds.length == 0)
+          alert("<fmt:message key="watchlist.noExportables"/>");
+        else {
               startImageFader($("chartDataImg"));
               WatchListDwr.getChartData(getChartPointList(), $get("fromYear"), $get("fromMonth"), $get("fromDay"), 
                       $get("fromHour"), $get("fromMinute"), $get("fromSecond"), $get("fromNone"), $get("toYear"), 
@@ -438,7 +450,7 @@
                   stopImageFader($("chartDataImg"));
                   window.location = "chartExport/watchListData.csv";
               });
-    	  }
+        }
       }
       
       function getChartPointList() {
@@ -463,30 +475,106 @@
       <div dojoType="SplitContainer" orientation="horizontal" sizerWidth="3" activeSizing="true" class="borderDiv"
               widgetId="splitContainer" style="width: 100%; height: 500px;">
         <div dojoType="ContentPane" sizeMin="20" sizeShare="20" style="overflow:auto;padding:2px;">
-<span class="smallTitle"><h1>Welcome!</h1></span>
+          <span class="smallTitle"><h1>Welcome!</h1></span>
           <div>
             <p>Mango - Open Source M2M - http://mango.serotoninsoftware.com
                 Copyright (C) 2006-2011 Serotonin Software Technologies Inc.
                 @author Matthew Lohbihler
-
+                
                 This program is free software: you can redistribute it and/or modify
                 it under the terms of the GNU General Public License as published by
                 the Free Software Foundation, either version 3 of the License, or
                 (at your option) any later version.
-
+            
                 This program is distributed in the hope that it will be useful,
                 but WITHOUT ANY WARRANTY; without even the implied warranty of
                 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
                 GNU General Public License for more details.
-
+            
                 You should have received a copy of the GNU General Public License
                 along with this program.  If not, see http://www.gnu.org/licenses/.</p>
+
+<span class="sensorLocations"></span>
+            <span style="display: inline-block; width: 300px; height: 300px; background-image: url('images/usethis.png'); background-size: cover; background-position: center;"></span>
+
+<html>
+<head>
+    <title>Button Redirect with Image</title>
+
+    
+    <style>
+       
+        button {
+            background-color: #F07600;
+            border: none; 
+            color: white; 
+            padding: 10px 20px; 
+            text-align: center; 
+            text-decoration: none; 
+            display: inline-block; 
+            font-size: 16px;
+            border-radius: 5px; 
+            transition: 0.3s; 
+        }
+
+        /* Hover effect */
+        button:hover {
+            background-color: #F07800;
+        }
+    </style>
+
+    <script>
+    
+        function goToUrl(url) {
+            window.location.href = url; 
+        }
+
+       
+        function showImage(divId, imageSrc) {
+            var div = document.getElementById(divId);
+            if (div) {
+                div.style.display = "block"; 
+
+               
+                div.innerHTML = "";
+
+                var img = document.createElement("img");
+                img.src = imageSrc; 
+                img.style.width = "100px";
+                img.alt = "Displayed Image"; 
+
+               
+                div.appendChild(img);
+            }
+        }
+
+    
+        function hide(divId) {
+            var div = document.getElementById(divId);
+            if (div) {
+                div.style.display = "none";
+            }
+        }
+    </script>
+</head>
+<body>
+ 
+
+    
+    <button onclick="goToUrl('http://localhost:8080/Software/help.shtm');">Help Page</button>
+
+   
+    <div id="imageDiv" style="display: none;">
+       
+    </div>
+</body>
+</html>
+
+
+
+
+
           </div>
-
-           <span class="sensorLocations"></span>
-            <span style="display: inline-block; width: 400px; height: 400px; background-image: url('images/Slocations.png'); background-size: cover; background-position: center;"></span>
-
-
           <span class="smallTitle"><fmt:message key="watchlist.points"/></span> <tag:help id="watchListPoints"/><br/>
           <img src="images/hourglass.png" id="loadingImg"/>
           <div id="treeDiv" style="display:none;"><div dojoType="Tree" widgetId="tree"></div></div>
@@ -583,11 +671,25 @@
     </td></tr>
     
     <tr><td>
- 
-
-
+      <div class="borderDiv" style="width: 100%;">
+        <table width="100%">
+          <tr>
+            <td class="smallTitle"><fmt:message key="watchlist.chart"/> <tag:help id="watchListCharts"/></td>
+            <td align="right"><tag:dateRange/></td>
+            <td>
+              <tag:img id="imageChartImg" png="control_play_blue" title="watchlist.imageChartButton"
+                      onclick="getImageChart()"/>
+              <tag:img id="chartDataImg" png="bullet_down" title="watchlist.chartDataButton"
+                      onclick="getChartData()"/>
+            </td>
+          </tr>
+          <tr><td colspan="3" id="imageChartDiv"></td></tr>
+        </table>
+      </div>
     </td></tr>
     
     </table>
   </jsp:body>
 </tag:page>
+
+

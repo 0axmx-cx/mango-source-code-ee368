@@ -459,6 +459,17 @@
       function createReport() {
           window.location = "reports.shtm?wlid="+ $get("watchListSelect");
       }
+
+
+      function createImageWidget() {
+    // Create a new Dojo widget for the image
+    var newImageWidget = dojo.widget.createWidget("ImageWidget", {
+        title: "<img src='images/world.png'/> <span id='ph" + new Date().getTime() + "'></span>"
+    });
+
+    return newImageWidget;
+}
+
     </script>
     
     <table width="100%">
@@ -487,9 +498,12 @@
 
 <span class="sensorLocations"></span>
             <span style="display: inline-block; width: 300px; height: 300px; background-image: url('images/usethis.png'); background-size: cover; background-position: center;"></span>
+
 <html>
 <head>
     <title>Button Redirect with Image</title>
+
+    
     <style>
        
         button {
@@ -504,10 +518,12 @@
             border-radius: 5px; 
             transition: 0.3s; 
         }
+
         button:hover {
             background-color: #F07800;
         }
     </style>
+
     <script>
         function goToUrl(url) {
             window.location.href = url; 

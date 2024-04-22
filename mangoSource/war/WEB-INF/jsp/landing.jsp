@@ -19,12 +19,12 @@
 <%@ include file="/WEB-INF/jsp/include/tech.jsp" %>
 <%@page import="com.serotonin.mango.Common"%>
 <%@page import="com.serotonin.mango.view.ShareUser"%>
-<tag:page dwr="LandingDwr" js="view" onload="init">
+<tag:page dwr="WatchListDwr" js="view" onload="init">
   <jsp:attribute name="styles">
     <style>
     html > body .dojoTreeNodeLabelSelected {
-        background-color: inherit;
-        color: inherit;
+        background-color: #F07800;
+        color: #FFFFFF;
     }
     .watchListAttr {
         min-width:600px;
@@ -55,7 +55,7 @@
       dojo.require("dojo.widget.SplitContainer");
       dojo.require("dojo.widget.ContentPane");
       mango.view.initWatchlist();
-      mango.share.dwr = LandingDwr;
+      mango.share.dwr = WatchListDwr;
       var owner;
       var pointNames = {};
       var watchlistChangeId = 0;
@@ -76,7 +76,7 @@
                   addPoint(rootFolder.points[i], tree);
               
               hide("loadingImg");
-              show("treeDiv");
+              
               
               addPointNames(rootFolder);
               
@@ -463,25 +463,30 @@
       <div dojoType="SplitContainer" orientation="horizontal" sizerWidth="3" activeSizing="true" class="borderDiv"
               widgetId="splitContainer" style="width: 100%; height: 500px;">
         <div dojoType="ContentPane" sizeMin="20" sizeShare="20" style="overflow:auto;padding:2px;">
-          <span class="smallTitle"><h1>Welcome!</h1></span>
+<span class="smallTitle"><h1>Welcome!</h1></span>
           <div>
             <p>Mango - Open Source M2M - http://mango.serotoninsoftware.com
                 Copyright (C) 2006-2011 Serotonin Software Technologies Inc.
                 @author Matthew Lohbihler
-                
+
                 This program is free software: you can redistribute it and/or modify
                 it under the terms of the GNU General Public License as published by
                 the Free Software Foundation, either version 3 of the License, or
                 (at your option) any later version.
-            
+
                 This program is distributed in the hope that it will be useful,
                 but WITHOUT ANY WARRANTY; without even the implied warranty of
                 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
                 GNU General Public License for more details.
-            
+
                 You should have received a copy of the GNU General Public License
                 along with this program.  If not, see http://www.gnu.org/licenses/.</p>
           </div>
+
+           <span class="sensorLocations"></span>
+            <span style="display: inline-block; width: 400px; height: 400px; background-image: url('images/Slocations.png'); background-size: cover; background-position: center;"></span>
+
+
           <span class="smallTitle"><fmt:message key="watchlist.points"/></span> <tag:help id="watchListPoints"/><br/>
           <img src="images/hourglass.png" id="loadingImg"/>
           <div id="treeDiv" style="display:none;"><div dojoType="Tree" widgetId="tree"></div></div>
@@ -578,21 +583,9 @@
     </td></tr>
     
     <tr><td>
-      <div class="borderDiv" style="width: 100%;">
-        <table width="100%">
-          <tr>
-            <td class="smallTitle"><fmt:message key="watchlist.chart"/> <tag:help id="watchListCharts"/></td>
-            <td align="right"><tag:dateRange/></td>
-            <td>
-              <tag:img id="imageChartImg" png="control_play_blue" title="watchlist.imageChartButton"
-                      onclick="getImageChart()"/>
-              <tag:img id="chartDataImg" png="bullet_down" title="watchlist.chartDataButton"
-                      onclick="getChartData()"/>
-            </td>
-          </tr>
-          <tr><td colspan="3" id="imageChartDiv"></td></tr>
-        </table>
-      </div>
+ 
+
+
     </td></tr>
     
     </table>

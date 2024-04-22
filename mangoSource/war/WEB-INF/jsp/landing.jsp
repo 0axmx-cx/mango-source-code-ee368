@@ -19,7 +19,7 @@
 <%@ include file="/WEB-INF/jsp/include/tech.jsp" %>
 <%@page import="com.serotonin.mango.Common"%>
 <%@page import="com.serotonin.mango.view.ShareUser"%>
-<tag:page dwr="WatchListDwr" js="view" onload="init">
+<tag:page dwr="LandingDwr" js="view" onload="init">
   <jsp:attribute name="styles">
     <style>
     html > body .dojoTreeNodeLabelSelected {
@@ -55,7 +55,7 @@
       dojo.require("dojo.widget.SplitContainer");
       dojo.require("dojo.widget.ContentPane");
       mango.view.initWatchlist();
-      mango.share.dwr = WatchListDwr;
+      mango.share.dwr = LandingDwr;
       var owner;
       var pointNames = {};
       var watchlistChangeId = 0;
@@ -463,6 +463,25 @@
       <div dojoType="SplitContainer" orientation="horizontal" sizerWidth="3" activeSizing="true" class="borderDiv"
               widgetId="splitContainer" style="width: 100%; height: 500px;">
         <div dojoType="ContentPane" sizeMin="20" sizeShare="20" style="overflow:auto;padding:2px;">
+          <span class="smallTitle"><h1>Welcome!</h1></span>
+          <div>
+            <p>Mango - Open Source M2M - http://mango.serotoninsoftware.com
+                Copyright (C) 2006-2011 Serotonin Software Technologies Inc.
+                @author Matthew Lohbihler
+                
+                This program is free software: you can redistribute it and/or modify
+                it under the terms of the GNU General Public License as published by
+                the Free Software Foundation, either version 3 of the License, or
+                (at your option) any later version.
+            
+                This program is distributed in the hope that it will be useful,
+                but WITHOUT ANY WARRANTY; without even the implied warranty of
+                MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                GNU General Public License for more details.
+            
+                You should have received a copy of the GNU General Public License
+                along with this program.  If not, see http://www.gnu.org/licenses/.</p>
+          </div>
           <span class="smallTitle"><fmt:message key="watchlist.points"/></span> <tag:help id="watchListPoints"/><br/>
           <img src="images/hourglass.png" id="loadingImg"/>
           <div id="treeDiv" style="display:none;"><div dojoType="Tree" widgetId="tree"></div></div>

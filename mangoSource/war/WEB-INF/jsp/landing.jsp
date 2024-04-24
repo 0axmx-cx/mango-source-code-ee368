@@ -496,9 +496,9 @@
                 You should have received a copy of the GNU General Public License
                 along with this program.  If not, see http://www.gnu.org/licenses/.</p>
 
-<span class="sensorLocations"></span>
-            <span style="display: inline-block; width: 300px; height: 300px; background-image: url('images/usethis.png'); background-size: cover; background-position: center;"></span>
-
+            <span class="sensorLocations"></span>
+            <span style="display: inline-block; width: 300px; height: 300px; background-image: url('images/Slocations.PNG'); background-size: cover; background-position: center;"></span>
+    
 <html>
 <head>
     <title>Button Redirect with Image</title>
@@ -549,7 +549,7 @@
     </script>
 </head>
 <body>
-    <button onclick="goToUrl('http://localhost:8080/Software/help.shtm');">Help Page</button>
+    <button onclick="goToUrl('http://localhost:8080/test/help.shtm');">Help Page</button>
     <div id="imageDiv" style="display: none;">
     </div>
 </body>
@@ -676,4 +676,3 @@
     </table>
   </jsp:body>
 </tag:page>
-

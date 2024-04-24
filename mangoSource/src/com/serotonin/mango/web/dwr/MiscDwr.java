@@ -264,7 +264,7 @@ public class MiscDwr extends BaseDwr {
     public String getHomeUrl() {
         String url = Common.getUser().getHomeUrl();
         if (StringUtils.isEmpty(url))
-            url = "watch_list.shtm";
+            url = "landing.shtm";
         return url;
     }
 
